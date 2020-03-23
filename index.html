@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程</title>
+</head>
+<style type="text/css">
+	[v-cloak] {
+	display: none;
+}
+</style>
+<body>
+    <div id="content" v-cloak>
+    	<h1>{{name}}</h1>
+    	<p>{{content}}</p>
+    	<p v-for="item in list">{{item.name}}</p>
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="./vue.min.js"></script>
+<script src="./axios.min.js"></script>
+<script type="text/javascript">
+	var content = new Vue({
+        el: '#content',
+        data: {
+        	"name":'',
+        	"content":'',
+        	"list":""
+        },
+        methods: {
+            withdrawList: function() {
+                content.name = '我的第一个标题';
+                content.content= "我的第一个段落。";
+                axios({
+	              method:'get',
+	              url:'http://127.0.0.1:3001/goods'
+	            }).then(function(resp){
+	              console.log(resp.data);
+	              content.list = resp.data;
+	            }).catch(resp => {
+	              console.log('请求失败：'+resp.status+','+resp.statusText);
+	            });
+            },
+        }
+    });
+    content.withdrawList();
+</script>
